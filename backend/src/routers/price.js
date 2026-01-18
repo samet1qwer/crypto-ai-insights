@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const crypto_price = require("../models/price_data");
 
 router.get("/price/:symbol", async (req, res) => {
   const symbol = req.params.symbol;

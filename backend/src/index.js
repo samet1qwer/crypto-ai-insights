@@ -16,6 +16,12 @@ const crypto_price = require("./models/price_data");
 const signal = require("./models/aı_signal");
 const trade = require("./models/trade");
 
+// ? routers
+
+const userRouter = require("./routers/user");
+
+app.use("/api", userRouter);
+
 app.listen(3000, () => {
   console.log("Server started on port 3000");
 });

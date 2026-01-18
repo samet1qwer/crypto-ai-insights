@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const user = require("../models/user");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 router.get("/user", (req, res) => {
   const users = user.find();
@@ -21,7 +22,12 @@ router.post("/user/create", async (req, res) => {
   });
 
   const savedUser = await newUser.save();
-  res.send(savedUser);
+
+  const token = jwt.sign(
+    { _id: savedUser.id, role: savedUser.role },
+    "secretkey"
+  );
+  res.header("auth-token", token).send(token);
 });
 router.post("/user/login", async (req, res) => {
   const email = req.body.email;
@@ -31,7 +37,8 @@ router.post("/user/login", async (req, res) => {
   if (!user) {
     return res.status(401).send("Invalid email or password");
   }
-  res.send(user);
+  const token = jwt.sign({ _id: user.id, role: user.role }, "secretkey");
+  res.header("auth-token", token).send(token);
 });
 
 router.patch("/user/update/:id", async (req, res) => {

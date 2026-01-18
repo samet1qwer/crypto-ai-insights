@@ -14,6 +14,7 @@ const user = require("./models/user");
 const crypto_asset = require("./models/crypto_asset");
 const crypto_price = require("./models/price_data");
 const signal = require("./models/aı_signal");
+const trade = require("./models/trade");
 
 app.listen(3000, () => {
   console.log("Server started on port 3000");

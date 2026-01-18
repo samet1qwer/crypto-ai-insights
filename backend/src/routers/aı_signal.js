@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const signal = require("../models/aı_signal");
 
 router.get("ai_signal/:symbol", async (req, res) => {
   const symbol = req.params.symbol;

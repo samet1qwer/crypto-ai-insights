@@ -19,7 +19,10 @@ const trade = require("./models/trade");
 // ? routers
 
 const userRouter = require("./routers/user");
-
+const crypto_assetRouter = require("./routers/crypto_assets");
+const crypto_priceRouter = require("./routers/price");
+const signalRouter = require("./routers/aı_signal");
+const tradeRouter = require("./routers/trade");
 app.use("/api", userRouter);
 
 app.listen(3000, () => {

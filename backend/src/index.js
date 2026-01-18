@@ -8,6 +8,10 @@ app.get("/", (req, res) => {
 // ? db bağlantı
 const db = require("./config/db");
 
+// ? models
+
+const user = require("./models/user");
+
 app.listen(3000, () => {
   console.log("Server started on port 3000");
 });

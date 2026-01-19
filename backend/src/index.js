@@ -20,6 +20,7 @@ const crypto_priceRouter = require("./routers/price");
 const signalRouter = require("./routers/aı_signal");
 const tradeRouter = require("./routers/trade");
 app.use("/api", userRouter);
+app.use("/api", crypto_assetRouter);
 
 app.listen(3000, () => {
   console.log("Server started on port 3000");

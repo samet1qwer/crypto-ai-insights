@@ -13,13 +13,13 @@ router.get("/crypto_assets/:id", async (req, res) => {
   res.send(symbol);
 });
 
-router.post("/crypto_assets/add/:id", async (req, res) => {
+router.post("/crypto_assets/add", async (req, res) => {
   const symbol = req.body.symbol;
-  const price = req.body.price;
+  const name = req.body.name;
 
   const newSymbol = new crypto_asset({
     symbol: symbol,
-    price: price,
+    name: name,
   });
 
   const savedSymbol = await newSymbol.save();

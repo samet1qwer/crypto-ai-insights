@@ -3,7 +3,7 @@ const mongose = require("mongoose");
 const price = new mongose.Schema({
   crypto_id: {
     type: mongose.Schema.Types.ObjectId,
-    ref: "Crypto_assets",
+    ref: "CryptoAsset",
     required: true,
   },
   price: {

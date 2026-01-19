@@ -1,13 +1,14 @@
-const mongose = require("mongoose");
+const mongoose = require("mongoose");
 
 const uri = "mongodb://127.0.0.1:27017/crypto-ai";
-mongose
+
+mongoose
   .connect(uri)
   .then(() => {
-    console.log("Connected to MongoDB");
+    console.log("MongoDB connected");
   })
-  .catch((error) => {
-    console.log("Error connecting to MongoDB", error);
+  .catch((err) => {
+    console.error("MongoDB connection error:", err);
   });
 
-module.exports = mongose;
+module.exports = mongoose;

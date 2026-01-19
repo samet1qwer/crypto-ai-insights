@@ -16,6 +16,6 @@ const crypto_assets = new mongose.Schema({
   },
 });
 
-const crypto_asset = mongose.model("Crypto_assets", crypto_assets);
+const crypto_asset = mongose.model("CryptoAsset", crypto_assets);
 
 module.exports = crypto_asset;

@@ -25,4 +25,4 @@ const aiSignalSchema = new mongose.Schema({
   },
 });
 
-module.exports = mongoose.model("AiSignal", aiSignalSchema);
+module.exports = mongose.model("AiSignal", aiSignalSchema);

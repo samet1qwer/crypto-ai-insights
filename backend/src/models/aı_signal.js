@@ -1,6 +1,6 @@
 const mongose = require("mongoose");
 
-const signalSchema = new mongose.Schema({
+const aiSignalSchema = new mongose.Schema({
   crypto_id: {
     type: mongose.Schema.Types.ObjectId,
     ref: "Crypto_assets",
@@ -8,6 +8,7 @@ const signalSchema = new mongose.Schema({
   },
   signal: {
     type: String,
+    enum: ["BUY", "SELL", "HOLD"],
     required: true,
   },
   confidance: {
@@ -16,7 +17,7 @@ const signalSchema = new mongose.Schema({
   },
   model_version: {
     type: String,
-    required: true,
+    default: "v1-rule-based",
   },
   date: {
     type: Date,
@@ -24,6 +25,4 @@ const signalSchema = new mongose.Schema({
   },
 });
 
-const signal = mongose.model("Signal", signalSchema);
-
-module.exports = signal;
+module.exports = mongoose.model("AiSignal", aiSignalSchema);

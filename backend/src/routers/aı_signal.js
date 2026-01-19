@@ -2,9 +2,12 @@ const express = require("express");
 const router = express.Router();
 const signal = require("../models/aı_signal");
 
-router.get("ai_signal/:symbol", async (req, res) => {
+router.get("/ai_signal/:symbol", async (req, res) => {
   const symbol = req.params.symbol;
   const signal = await signal.findOne({ symbol: symbol });
+  if (!signal) {
+    res.status(404).send("Signal not found");
+  }
   res.send(signal);
 });
 

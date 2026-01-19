@@ -6,7 +6,7 @@ const crypto_assets = new mongose.Schema({
     required: true,
     unique: true,
   },
-  price: {
+  name: {
     type: String,
     required: true,
   },

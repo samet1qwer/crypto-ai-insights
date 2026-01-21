@@ -1,21 +1,24 @@
-const mongose = require("mongoose");
+const mongoose = require("mongoose");
 
-const price = new mongose.Schema({
-  crypto_id: {
-    type: mongose.Schema.Types.ObjectId,
-    ref: "CryptoAsset",
-    required: true,
+const priceSchema = new mongoose.Schema(
+  {
+    crypto_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "CryptoAsset",
+      required: true,
+    },
+    price: {
+      type: Number,
+      required: true,
+    },
+    date: {
+      type: Date,
+      required: true,
+    },
   },
-  price: {
-    type: Number,
-    required: true,
-  },
-  date: {
-    type: Date,
-    default: Date.now,
-  },
-});
+  { timestamps: true },
+);
 
-const crypto_price = mongose.model("Crypto_price", price);
+priceSchema.index({ crypto_id: 1, date: 1 }, { unique: true });
 
-module.exports = crypto_price;
+module.exports = mongoose.model("Crypto_price", priceSchema);

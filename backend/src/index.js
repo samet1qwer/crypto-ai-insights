@@ -12,6 +12,20 @@ const crypto_price = require("./models/price_data");
 const signal = require("./models/aı_signal");
 const trade = require("./models/trade");
 
+// ? services
+const fetchHistoricalPrices = require("./services/fetchHistoricalPrices");
+
+const get_asset = async () => {
+  const assets = await crypto_asset.find();
+
+  for (const asset of assets) {
+    await fetchHistoricalPrices(asset.symbol, asset.name, "1d");
+    await new Promise((r) => setTimeout(r, 500));
+  }
+};
+
+get_asset();
+
 // ? routers
 
 const userRouter = require("./routers/user");

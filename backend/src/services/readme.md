@@ -1,0 +1,1 @@
+fetchHistoricalPrices fonksiyonu çalışmıyor sunucuda çalıştırmayı dene cevap vermiyor

@@ -1,3 +1,11 @@
+const https = require("https");
+
+const httpsAgent = new https.Agent({
+  keepAlive: true,
+  minVersion: "TLSv1.2",
+  maxVersion: "TLSv1.3",
+});
+
 const axios = require("axios");
 const prices_data = require("../models/price_data");
 const crypto_assets = require("../models/crypto_asset");
@@ -12,14 +20,14 @@ const fetchHistoricalPrices = async (symbol, name, period) => {
         name,
       });
     }
-
     const response = await axios.get("https://api.binance.com/api/v3/klines", {
       params: {
         symbol: `${symbol}USDT`,
         interval: period,
         limit: 1000,
       },
-      timeout: 10000,
+      httpsAgent,
+      timeout: 15000,
     });
 
     const prices = response.data.map((item) => ({

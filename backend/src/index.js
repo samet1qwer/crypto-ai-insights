@@ -1,3 +1,6 @@
+require("dotenv").config();
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
 const express = require("express");
 const app = express();
 
@@ -15,16 +18,23 @@ const trade = require("./models/trade");
 // ? services
 const fetchHistoricalPrices = require("./services/fetchHistoricalPrices");
 
-const get_asset = async () => {
-  const assets = await crypto_asset.find();
+// require("dotenv").config();
+// require("./config/db");
 
+const run = async () => {
+  const assets = await crypto_asset.find();
+  console.log(assets);
   for (const asset of assets) {
+    console.log(`Fetching price for ${asset.symbol}`);
     await fetchHistoricalPrices(asset.symbol, asset.name, "1d");
     await new Promise((r) => setTimeout(r, 500));
   }
+
+  console.log("✅ Price fetch completed");
+  process.exit(0);
 };
 
-get_asset();
+run();
 
 // ? routers
 
@@ -36,6 +46,8 @@ const tradeRouter = require("./routers/trade");
 app.use("/api", userRouter);
 app.use("/api", crypto_assetRouter);
 
-app.listen(3000, () => {
-  console.log("Server started on port 3000");
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log("Server started on port " + PORT);
 });

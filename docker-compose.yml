@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  mongo:
+    image: mongo:6
+    container_name: crypto-ai-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  ai-service:
+    build: ./ai-service
+    container_name: crypto-ai-ai
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mongo
+
+  backend:
+    build: ./backend
+    container_name: crypto-ai-api
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+      - ai-service
+    environment:
+      MONGO_URI: mongodb://mongo:27017/crypto_ai
+
+volumes:
+  mongo_data:

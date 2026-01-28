@@ -55,8 +55,10 @@ const crypto_assetRouter = require("./routers/crypto_assets");
 const crypto_priceRouter = require("./routers/price");
 const signalRouter = require("./routers/aı_signal");
 const tradeRouter = require("./routers/trade");
+const cryptoRoutes = require("./routers/cryptoRoutes.js");
 app.use("/api", userRouter);
 app.use("/api", crypto_assetRouter);
+app.use("/api", cryptoRoutes);
 
 const PORT = process.env.PORT || 3000;
 

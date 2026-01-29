@@ -18,30 +18,27 @@ const trade = require("./models/trade");
 // ? services
 const fetchHistoricalPrices = require("./services/fetchHistoricalPrices");
 
-// require("dotenv").config();
-// require("./config/db");
+const run = async () => {
+  // const assets = await crypto_asset.find();
+  const assets = [
+    { symbol: "BTC", name: "Bitcoin" },
+    { symbol: "ETH", name: "Ethereum" },
+    { symbol: "BNB", name: "Binance Coin" },
+    { symbol: "XRP", name: "Ripple" },
+    { symbol: "SOL", name: "Solana" },
+  ];
+  console.log(assets);
+  for (const asset of assets) {
+    console.log(`Fetching price for ${asset.symbol}`);
+    await fetchHistoricalPrices(asset.symbol, asset.name, "1d");
+    await new Promise((r) => setTimeout(r, 500));
+  }
 
-// const run = async () => {
-//   // const assets = await crypto_asset.find();
-//   const assets = [
-//     { symbol: "BTC", name: "Bitcoin" },
-//     { symbol: "ETH", name: "Ethereum" },
-//     { symbol: "BNB", name: "Binance Coin" },
-//     { symbol: "XRP", name: "Ripple" },
-//     { symbol: "SOL", name: "Solana" },
-//   ];
-//   console.log(assets);
-//   for (const asset of assets) {
-//     console.log(`Fetching price for ${asset.symbol}`);
-//     await fetchHistoricalPrices(asset.symbol, asset.name, "1d");
-//     await new Promise((r) => setTimeout(r, 500));
-//   }
+  console.log("Price fetch completed");
+  process.exit(0);
+};
 
-//   console.log("✅ Price fetch completed");
-//   process.exit(0);
-// };
-
-// run();
+run();
 
 // (async () => {
 //   const prices = await crypto_price.find();

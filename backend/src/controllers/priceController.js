@@ -1,3 +1,4 @@
+const crypto_price = require("../models/price_data");
 exports.getPrice = async (req, res) => {
   const symbol = req.params.symbol;
   const price = await crypto_price.findOne({ symbol: symbol });

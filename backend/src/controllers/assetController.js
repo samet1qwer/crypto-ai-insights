@@ -1,3 +1,4 @@
+const crypto_asset = require("../models/crypto_asset");
 exports.getAssets = async (req, res) => {
   const symbols = await crypto_asset.find();
   res.send(symbols);

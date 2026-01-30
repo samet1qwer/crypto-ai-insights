@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const crypto_asset = require("../models/crypto_asset");
+
 const {
   getAssets,
   getAsset,

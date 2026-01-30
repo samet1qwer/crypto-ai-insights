@@ -1,64 +1,21 @@
 const express = require("express");
 const router = express.Router();
-const user = require("../models/user");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 
-router.get("/user", (req, res) => {
-  const users = user.find();
-  res.send(users);
-});
-router.post("/user/create", async (req, res) => {
-  const userName = req.body.name;
-  const userEmail = req.body.email;
-  const userPassword = bcrypt.hashSync(req.body.password, 10);
-  const userRole = req.body.role;
+const {
+  getUser,
+  createUser,
+  updateUser,
+  loginUser,
+  deleteUser,
+} = require("../controllers/userController");
+router.get("/user", getUser);
 
-  const newUser = new user({
-    name: userName,
-    email: userEmail,
-    password: userPassword,
-    role: userRole,
-  });
+router.post("/user/create", createUser);
 
-  const savedUser = await newUser.save();
+router.post("/user/login", loginUser);
 
-  const token = jwt.sign(
-    { _id: savedUser.id, role: savedUser.role },
-    "secretkey"
-  );
-  res.header("auth-token", token).send(token);
-});
-router.post("/user/login", async (req, res) => {
-  const email = req.body.email;
-  const password = bcrypt.hashSync(req.body.password, 10);
+router.patch("/user/update/:id", updateUser);
 
-  const user = await user.findOne({ email: email, password: password });
-  if (!user) {
-    return res.status(401).send("Invalid email or password");
-  }
-  const token = jwt.sign({ _id: user.id, role: user.role }, "secretkey");
-  res.header("auth-token", token).send(token);
-});
-
-router.patch("/user/update/:id", async (req, res) => {
-  const user = await user.findById(req.params.id);
-  if (!user) {
-    return res.status(404).send("User not found");
-  }
-  user.name = req.body.name;
-  user.email = req.body.email;
-  user.password = req.body.password;
-  user.role = req.body.role;
-
-  const updatedUser = await user.save();
-  res.send(updatedUser);
-});
-
-router.delete("/user/delete/:id", async (req, res) => {
-  const user = await user.findByIdAndDelete(req.params.id);
-
-  res.send(user);
-});
+router.delete("/user/delete/:id", deleteUser);
 
 module.exports = router;

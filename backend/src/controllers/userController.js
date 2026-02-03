@@ -1,6 +1,7 @@
 const user = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { generateToken } = require("../middleware/tokenJwt");
 exports.getUsers = (req, res) => {
   const users = user.find();
   res.send(users);
@@ -20,10 +21,7 @@ exports.createUser = async (req, res) => {
 
   const savedUser = await newUser.save();
 
-  const token = jwt.sign(
-    { _id: savedUser.id, role: savedUser.role },
-    "secretkey",
-  );
+  const token = generateToken(savedUser);
   res.header("auth-token", token).send(token);
 };
 
@@ -49,7 +47,7 @@ exports.loginUser = async (req, res) => {
   if (!user) {
     return res.status(401).send("Invalid email or password");
   }
-  const token = jwt.sign({ _id: user.id, role: user.role }, "secretkey");
+  const token = generateToken(user);
   res.header("auth-token", token).send(token);
 };
 

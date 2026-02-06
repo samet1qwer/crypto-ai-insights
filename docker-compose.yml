@@ -28,5 +28,13 @@ services:
     environment:
       MONGO_URI: mongodb://mongo:27017/crypto_ai
 
+  frontend:
+    build: ./frontend
+    container_name: crypto-ai-front
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+
 volumes:
   mongo_data:

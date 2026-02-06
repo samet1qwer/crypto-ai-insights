@@ -2,7 +2,7 @@ const user = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { generateToken } = require("../middleware/tokenJwt");
-exports.getUsers = (req, res) => {
+exports.getUser = (req, res) => {
   const users = user.find();
   res.send(users);
 };

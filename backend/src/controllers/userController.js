@@ -61,7 +61,15 @@ exports.loginUser = async (req, res) => {
 
   const token = generateToken(foundUser);
 
-  res.json({ token });
+  res.json({
+    token,
+    user: {
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    },
+  });
 };
 
 exports.deleteUser = async (req, res) => {

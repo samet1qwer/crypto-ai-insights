@@ -1,6 +1,39 @@
 import React from "react";
+import axios from "axios";
+import { useState } from "react";
 
 export default function Register() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        "http://localhost:3000/api/user/create",
+        {
+          name,
+          email,
+          password,
+        },
+      );
+      console.log(response);
+      console.log(response.data);
+      setMessage("User created successfully");
+      setName("");
+      setEmail("");
+      setPassword("");
+      setTimeout(() => {
+        setMessage("Login to your account");
+        window.location.href = "/login";
+      }, 2000);
+    } catch (error) {
+      setMessage("Error creating user");
+    }
+  };
+
   return (
     <div className=" bg-[#0B0F19] flex flex-col justify-center items-center">
       <section className="flex justify-center items-center mt-10 w-full ">
@@ -8,13 +41,16 @@ export default function Register() {
           <h2 className="text-2xl font-bold text-white mb-6 text-center">
             Register to your account
           </h2>
+          {message && <p className="text-green-500 text-center">{message}</p>}
           <form className="space-y-4">
             <div>
-              <label className="block text-gray-400 mb-2">Full name</label>
+              <label className="block text-gray-400 mb-2">name</label>
               <input
                 type="text"
                 className="w-full p-3 rounded bg-[#0B0F19] border border-gray-700 text-white focus:border-green-500 outline-none"
-                placeholder="Enter your Full name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Enter your name"
               />
             </div>
             <div>
@@ -22,6 +58,8 @@ export default function Register() {
               <input
                 type="email"
                 className="w-full p-3 rounded bg-[#0B0F19] border border-gray-700 text-white focus:border-green-500 outline-none"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
               />
             </div>
@@ -31,17 +69,22 @@ export default function Register() {
               <input
                 type="password"
                 className="w-full p-3 rounded bg-[#0B0F19] border border-gray-700 text-white focus:border-green-500 outline-none"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter your password"
               />
             </div>
-            <button className="w-full bg-green-500 hover:bg-green-600 text-[#0B0F19] font-bold py-3 rounded-lg transition duration-300 mt-4">
+            <button
+              onClick={handleSubmit}
+              className="w-full bg-green-500 hover:bg-green-600 text-[#0B0F19] font-bold py-3 rounded-lg transition duration-300 mt-4"
+            >
               Register
             </button>
           </form>
           <p className="text-gray-500 text-center mt-6">
             you have an account?
             <span className="text-green-500 cursor-pointer hover:underline">
-              Sign In
+              sign in
             </span>
           </p>
         </div>

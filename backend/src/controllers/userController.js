@@ -2,10 +2,11 @@ const user = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { generateToken } = require("../middleware/tokenJwt");
-exports.getUser = (req, res) => {
-  const users = user.find();
+exports.getUser = async (req, res) => {
+  const users = await user.find();
   res.send(users);
 };
+
 exports.createUser = async (req, res) => {
   const userName = req.body.name;
   const userEmail = req.body.email;
@@ -22,21 +23,25 @@ exports.createUser = async (req, res) => {
   const savedUser = await newUser.save();
 
   const token = generateToken(savedUser);
-  res.header("auth-token", token).send(token);
+  res.json({
+    token,
+    user: savedUser,
+  });
 };
 
 exports.updateUser = async (req, res) => {
-  const user = await user.findById(req.params.id);
-  if (!user) {
+  const foundUser = await user.findById(req.params.id);
+  if (!foundUser) {
     return res.status(404).send("User not found");
   }
-  user.name = req.body.name;
-  user.email = req.body.email;
-  user.password = req.body.password;
-  user.role = req.body.role;
 
-  const updatedUser = await user.save();
-  res.send(updatedUser);
+  foundUser.name = req.body.name;
+  foundUser.email = req.body.email;
+  foundUser.password = req.body.password;
+  foundUser.role = req.body.role;
+
+  const updatedfoundUser = await foundUser.save();
+  res.send(updatedfoundUser);
 };
 
 exports.loginUser = async (req, res) => {

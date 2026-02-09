@@ -40,15 +40,23 @@ exports.updateUser = async (req, res) => {
 };
 
 exports.loginUser = async (req, res) => {
-  const email = req.body.email;
-  const password = bcrypt.hashSync(req.body.password, 10);
+  const { email, password } = req.body;
 
-  const user = await user.findOne({ email: email, password: password });
-  if (!user) {
+  const foundUser = await user.findOne({ email });
+
+  if (!foundUser) {
     return res.status(401).send("Invalid email or password");
   }
-  const token = generateToken(user);
-  res.header("auth-token", token).send(token);
+
+  const validPassword = await bcrypt.compare(password, foundUser.password);
+
+  if (!validPassword) {
+    return res.status(401).send("Invalid email or password");
+  }
+
+  const token = generateToken(foundUser);
+
+  res.json({ token });
 };
 
 exports.deleteUser = async (req, res) => {

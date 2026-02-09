@@ -6,7 +6,7 @@ const app = express();
 const cors = require("cors");
 // ? db bağlantı
 const db = require("./config/db");
-
+// ? cors
 app.use(
   cors({
     origin: "*",

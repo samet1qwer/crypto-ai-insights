@@ -3,9 +3,17 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 const express = require("express");
 const app = express();
-
+const cors = require("cors");
 // ? db bağlantı
 const db = require("./config/db");
+
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  }),
+);
 
 // ? models
 app.use(express.json());

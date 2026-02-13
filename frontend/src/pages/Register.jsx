@@ -1,18 +1,21 @@
 import React, { use } from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
-  useEffect(() => {
-    if (localStorage.getItem("token")) {
-      window.location.href = "/";
-    }
-  }, []);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const navigate = useNavigate();
+  useEffect(() => {
+    const token = localStorage.getItem("token");
 
+    if (token) {
+      navigate("/");
+    }
+  }, []);
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {

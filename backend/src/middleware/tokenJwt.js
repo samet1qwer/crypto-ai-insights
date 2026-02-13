@@ -5,7 +5,7 @@ const generateToken = (user) => {
     { _id: user._id, role: user.role },
     process.env.JWT_SECRET,
     {
-      expiresIn: "30d",
+      expiresIn: "1m",
     },
   );
   return token;

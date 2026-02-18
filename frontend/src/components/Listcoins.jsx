@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 function Listcoins({ coin }) {
-  const priceChange = coin.price_change_percentage_24h;
+  const priceChange = coin.price_change_percentage_24h ?? 0;
   const isPositive = priceChange >= 0;
 
   return (
@@ -27,7 +27,7 @@ function Listcoins({ coin }) {
               {new Intl.NumberFormat("en-US", {
                 style: "currency",
                 currency: "USD",
-              }).format(coin.current_price)}
+              }).format(coin.current_price ?? 0)}
             </p>
           </div>
 

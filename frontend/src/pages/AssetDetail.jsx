@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
-
+import { Navigate } from "react-router-dom";
 function AssetDetail() {
+  const user = localStorage.getItem("user");
+  if (!user) {
+    return <Navigate to="/login" />;
+  }
+
   const { coin } = useParams();
 
   const [coinData, setCoinData] = useState(null);

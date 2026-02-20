@@ -7,6 +7,7 @@ import Footer from "./components/Footer";
 import Register from "./pages/Register";
 import Assets from "./pages/Assets";
 import AssetDetail from "./pages/AssetDetail";
+import Logout from "./pages/Logout";
 function App() {
   return (
     <div>
@@ -19,6 +20,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/assets" element={<Assets />} />
             <Route path="/assets/:coin" element={<AssetDetail />} />
+            <Route path="/logout" element={<Logout />} />
           </Routes>
           <Footer />
         </div>

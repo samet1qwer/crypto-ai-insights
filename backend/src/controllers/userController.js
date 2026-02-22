@@ -7,6 +7,21 @@ exports.getUser = async (req, res) => {
   res.send(users);
 };
 
+exports.getUserById = async (req, res) => {
+  try {
+    const getUser = await user.findById(req.user._id).select("-password");
+    if (!getUser) {
+      return res.status(404).send("User not found");
+    }
+    res.send(getUser);
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      error: err.message,
+    });
+  }
+};
+
 exports.createUser = async (req, res) => {
   const userName = req.body.name;
   const userEmail = req.body.email;
@@ -30,15 +45,15 @@ exports.createUser = async (req, res) => {
 };
 
 exports.updateUser = async (req, res) => {
-  const foundUser = await user.findById(req.params.id);
+  const foundUser = await user.findById(req.user._id);
   if (!foundUser) {
     return res.status(404).send("User not found");
   }
 
   foundUser.name = req.body.name;
-  foundUser.email = req.body.email;
+  foundUser.email = foundUser.email;
   foundUser.password = req.body.password;
-  foundUser.role = req.body.role;
+  foundUser.role = foundUser.role;
 
   const updatedfoundUser = await foundUser.save();
   res.send(updatedfoundUser);

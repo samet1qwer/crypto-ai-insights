@@ -2,17 +2,70 @@ import { useState } from "react";
 import btc from "../assets/btc.png";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { set } from "mongoose";
 
 function Profile() {
   const [open, setOpen] = useState(false);
   const [preview, setPreview] = useState(btc);
-
+  const [username, setUsername] = useState("");
+  const [mail, setmail] = useState("");
+  const [newUsername, setNewUsername] = useState("");
+  const [password, setPassword] = useState("");
   const token = localStorage.getItem("token");
   const user = localStorage.getItem("user");
   const navigate = useNavigate();
   if (!token) {
     return navigate("/login");
   }
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/api/user/profile",
+          {
+            headers: {
+              "auth-token": token,
+            },
+          },
+        );
+
+        console.log(response.data);
+        setUsername(response.data.name);
+        setmail(response.data.email);
+      } catch (error) {
+        console.error(error.response?.data || error.message);
+      }
+    };
+
+    fetchProfile();
+  }, []);
+
+  const SaveProfile = async () => {
+    if (!newUsername || !password) return alert("Please fill all the fields");
+    try {
+      const response = await axios.put(
+        "http://localhost:3000/api/user/update",
+        {
+          name: username,
+          password: password,
+        },
+        {
+          headers: {
+            "auth-token": token,
+          },
+        },
+      );
+      setUsername(newUsername);
+
+      console.log(response.data);
+      alert(response.data);
+      setOpen(false);
+    } catch (error) {
+      console.error(error.response?.data || error.message);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-[#0B1426] text-white flex items-center justify-center px-4 relative">
@@ -41,12 +94,12 @@ function Profile() {
 
           <div>
             <p className="text-sm text-gray-400">Username</p>
-            <p className="text-lg font-semibold">@samet</p>
+            <p className="text-lg font-semibold">@{username}</p>
           </div>
 
           <div>
             <p className="text-sm text-gray-400">Email</p>
-            <p className="text-lg font-semibold">samet@email.com</p>
+            <p className="text-lg font-semibold">{mail}</p>
           </div>
         </div>
 
@@ -87,11 +140,17 @@ function Profile() {
               <input
                 type="text"
                 placeholder="Name"
+                onChange={(e) => {
+                  setNewUsername(e.target.value);
+                }}
                 className="w-full p-3 rounded-lg bg-[#0F172A] border border-white/5 focus:border-green-400 outline-none"
               />
 
               <input
                 type="password"
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
                 placeholder="New Password"
                 className="w-full p-3 rounded-lg bg-[#0F172A] border border-white/5 focus:border-green-400 outline-none"
               />
@@ -105,7 +164,10 @@ function Profile() {
                 Cancel
               </button>
 
-              <button className="w-full bg-gradient-to-r from-green-400 to-emerald-500 py-2 rounded-lg">
+              <button
+                onClick={SaveProfile}
+                className="w-full bg-gradient-to-r from-green-400 to-emerald-500 py-2 rounded-lg"
+              >
                 Save
               </button>
             </div>

@@ -3,8 +3,7 @@ import btc from "../assets/btc.png";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { set } from "mongoose";
-
+import Logout from "./Logout";
 function Profile() {
   const [open, setOpen] = useState(false);
   const [preview, setPreview] = useState(btc);
@@ -69,6 +68,18 @@ function Profile() {
 
   return (
     <div className="min-h-screen bg-[#0B1426] text-white flex items-center justify-center px-4 relative">
+      <div>
+        <button
+          className="bg-red-500/80 text-white border border-red-400/20 px-4 py-2 rounded-lg 
+hover:bg-red-600 hover:border-red-500 transition duration-300 
+cursor-pointer absolute top-4 right-4 shadow-md hover:shadow-red-500/30"
+          onClick={() => {
+            navigate("/logout");
+          }}
+        >
+          Logout
+        </button>
+      </div>
       <div className="w-full max-w-md bg-[#12233D] rounded-2xl p-8 border border-white/5 shadow-2xl shadow-green-500/10">
         <h1 className="text-3xl font-semibold text-center mb-8">Profile</h1>
 

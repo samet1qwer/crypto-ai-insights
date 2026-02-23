@@ -51,7 +51,12 @@ function Header() {
               }`}
             >
               <div>
-                <button className="px-4 py-1 border border-green-400 rounded-lg cursor-pointer hover:text-green-400 hover:scale-105 transition-all duration-300">
+                <button
+                  className="px-4 py-1 border border-green-400 rounded-lg cursor-pointer hover:text-green-400 hover:scale-105 transition-all duration-300"
+                  onClick={() => {
+                    navigate("/login");
+                  }}
+                >
                   Login
                 </button>
               </div>

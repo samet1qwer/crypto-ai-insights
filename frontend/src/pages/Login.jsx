@@ -77,7 +77,12 @@ function Login() {
           </form>
           <p className="text-gray-500 text-center mt-6">
             Don't have an account?
-            <span className="text-green-500 cursor-pointer hover:underline">
+            <span
+              className="text-green-500 cursor-pointer hover:underline"
+              onClick={() => {
+                navigate("/register");
+              }}
+            >
               Register
             </span>
           </p>
